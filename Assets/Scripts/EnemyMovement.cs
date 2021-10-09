@@ -14,6 +14,9 @@ public class EnemyMovement : MonoBehaviour {
 		enemy = GetComponent<Enemy>();
 
 		target = Waypoints.points[0];
+		Vector3 dir = target.position - transform.position;
+		Vector3 newDirection = Vector3.RotateTowards(transform.forward, dir, 360, 0.0f);
+		transform.rotation = Quaternion.LookRotation(newDirection);
 	}
 
 	void Update()
@@ -27,6 +30,9 @@ public class EnemyMovement : MonoBehaviour {
 		}
 
 		enemy.speed = enemy.startSpeed;
+		dir = target.position - transform.position;
+		Vector3 newDirection = Vector3.RotateTowards(transform.forward, dir, 0.01f, 0.0f);
+		transform.rotation = Quaternion.LookRotation(newDirection);
 	}
 
 	void GetNextWaypoint()
@@ -39,6 +45,7 @@ public class EnemyMovement : MonoBehaviour {
 
 		wavepointIndex++;
 		target = Waypoints.points[wavepointIndex];
+		
 	}
 
 	void EndPath()
