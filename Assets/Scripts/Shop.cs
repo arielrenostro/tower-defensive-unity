@@ -7,7 +7,7 @@ public class Shop : MonoBehaviour {
 	public TurretBlueprint laserBeamer;
 
 	BuildManager buildManager;
-
+	BMWSpawner BMWSpawner;
 	void Start ()
 	{
 		buildManager = BuildManager.instance;
@@ -29,6 +29,10 @@ public class Shop : MonoBehaviour {
 	{
 		Debug.Log("Laser Beamer Selected");
 		buildManager.SelectTurretToBuild(laserBeamer);
+	}
+
+	public void spawnBMW(){
+		BMWSpawner.SpawnBmw();
 	}
 
 }
