@@ -10,10 +10,11 @@ public class BMW : MonoBehaviour
     private int wavepointIndex = Waypoints.points.Length - 2;
     private int nextWavepointIndex = Waypoints.points.Length -3;
     public GameObject deathEffect;
+	private float speed;
 
     void Start()
 	{
-        
+        speed = Time.fixedDeltaTime * 5;
 		target = Waypoints.points[wavepointIndex];
 		Vector3 dir = target.position - transform.position;
 		Vector3 newDirection = Vector3.RotateTowards(transform.forward, dir, 360, 0.0f);
@@ -21,12 +22,39 @@ public class BMW : MonoBehaviour
 	}
 	
 
-	void Update ()
+void Update(){
+	Debug.Log(1.0f / Time.deltaTime);
+}
+	/* void Update ()
 	{
 		Vector3 dir = target.position - transform.position;
 		transform.Translate(dir.normalized * 15 * Time.deltaTime, Space.World);
 
-        if (Vector3.Distance(transform.position, target.position) <= 5f)
+        if (Vector3.Distance(transform.position, target.position) <= 7f)
+		{
+            updateRotation();
+        }
+
+		if (Vector3.Distance(transform.position, target.position) <= 0.4f)
+		{
+			GetNextWaypoint();
+        
+		}
+
+        
+		//updateRotation();
+        
+		
+	} */
+
+	void FixedUpdate ()
+	{
+		
+		
+		Vector3 dir = target.position - transform.position;
+		transform.Translate(dir.normalized * 15 * Time.fixedDeltaTime, Space.World);
+
+        if (Vector3.Distance(transform.position, target.position) <= 7f)
 		{
             updateRotation();
         }
@@ -65,21 +93,22 @@ public class BMW : MonoBehaviour
         if(nextWavepointIndex != -1){
         Transform rotationTarget = Waypoints.points[nextWavepointIndex];
         Vector3 dir = rotationTarget.position - transform.position;
-		Vector3 newDirection = Vector3.RotateTowards(transform.forward, dir, 0.03f, 0.0f);
+		
+		Vector3 newDirection = Vector3.RotateTowards(transform.forward, dir, speed, 0f);
 		transform.rotation = Quaternion.LookRotation(newDirection);
 		}
     }
 
 	void OnCollisionEnter(Collision collision){
-		Debug.Log("TAG " + collision.gameObject.tag);
+		//Debug.Log("TAG " + collision.gameObject.tag);
 
 		if(collision.gameObject.tag == "Enemy"){
 			Enemy sc = collision.gameObject.GetComponent<Enemy>();
 			
             GameObject effect = (GameObject)Instantiate(sc.deathEffect, transform.position, Quaternion.identity);
     		Destroy(effect, 5f);
-
-			Destroy(collision.gameObject);
+			sc.TakeDamage(999f);
+			//Destroy(collision.gameObject);
 		}
 	}
 }

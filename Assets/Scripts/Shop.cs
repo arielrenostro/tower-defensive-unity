@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class Shop : MonoBehaviour {
 
-	public TurretBlueprint standardTurret;
-	public TurretBlueprint missileLauncher;
-	public TurretBlueprint laserBeamer;
+	public TurretBlueprint vaso;
+	public TurretBlueprint clerigo;
+	public TurretBlueprint laser;
 
 	BuildManager buildManager;
 	BMWSpawner BMWSpawner;
@@ -13,26 +13,26 @@ public class Shop : MonoBehaviour {
 		buildManager = BuildManager.instance;
 	}
 
-	public void SelectStandardTurret ()
+	public void SelectVaso ()
 	{
 		Debug.Log("Standard Turret Selected");
-		buildManager.SelectTurretToBuild(standardTurret);
+		buildManager.SelectTurretToBuild(vaso);
 	}
 
-	public void SelectMissileLauncher()
+	public void SelectClerigo()
 	{
 		Debug.Log("Missile Launcher Selected");
-		buildManager.SelectTurretToBuild(missileLauncher);
+		buildManager.SelectTurretToBuild(clerigo);
 	}
 
-	public void SelectLaserBeamer()
+	public void SelectLaser()
 	{
 		Debug.Log("Laser Beamer Selected");
-		buildManager.SelectTurretToBuild(laserBeamer);
+		buildManager.SelectTurretToBuild(laser);
 	}
 
-	public void spawnBMW(){
-		BMWSpawner.SpawnBmw();
-	}
+	//public void spawnBMW(){
+	//	BMWSpawner.SpawnBmw();
+	//}
 
 }

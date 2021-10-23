@@ -13,7 +13,15 @@ public class BMWSpawner : MonoBehaviour {
 
 	public void SpawnBmw ()
 	{
-        Debug.Log("BMW");
+		if (PlayerStats.Money < 350)
+		{
+			Debug.Log("Not enough money to build that!");
+			return;
+		}
+		PlayerStats.Money -= 350;
+
+        //Debug.Log("BMW");
+		
 		Instantiate(bmw, spawnPoint.position, spawnPoint.rotation);
 	}
 

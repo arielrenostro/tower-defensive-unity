@@ -6,11 +6,13 @@ public class EnemyMovement : MonoBehaviour {
 
 	private Transform target;
 	private int wavepointIndex = 0;
+	private float speed;
 
 	private Enemy enemy;
 
 	void Start()
 	{
+		speed = Time.fixedDeltaTime * 2;
 		enemy = GetComponent<Enemy>();
 
 		target = Waypoints.points[0];
@@ -19,10 +21,10 @@ public class EnemyMovement : MonoBehaviour {
 		transform.rotation = Quaternion.LookRotation(newDirection);
 	}
 
-	void Update()
+	void FixedUpdate()
 	{
 		Vector3 dir = target.position - transform.position;
-		transform.Translate(dir.normalized * enemy.speed * Time.deltaTime, Space.World);
+		transform.Translate(dir.normalized * enemy.speed * Time.fixedDeltaTime, Space.World);
 
 		if (Vector3.Distance(transform.position, target.position) <= 0.4f)
 		{
@@ -31,7 +33,7 @@ public class EnemyMovement : MonoBehaviour {
 
 		enemy.speed = enemy.startSpeed;
 		dir = target.position - transform.position;
-		Vector3 newDirection = Vector3.RotateTowards(transform.forward, dir, 0.01f, 0.0f);
+		Vector3 newDirection = Vector3.RotateTowards(transform.forward, dir, speed, 0.0f);
 		transform.rotation = Quaternion.LookRotation(newDirection);
 	}
 
