@@ -18,11 +18,14 @@ public class BMWSpawner : MonoBehaviour {
 			Debug.Log("Not enough money to build that!");
 			return;
 		}
-		PlayerStats.Money -= 350;
+		if(GameObject.FindGameObjectsWithTag("BMW").Length ==0 ){
+			PlayerStats.Money -= 350;
 
         //Debug.Log("BMW");
 		
 		Instantiate(bmw, spawnPoint.position, spawnPoint.rotation);
+		}
+		
 	}
 
 }

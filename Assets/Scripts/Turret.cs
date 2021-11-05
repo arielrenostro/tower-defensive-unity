@@ -9,6 +9,7 @@ public class Turret : MonoBehaviour {
 	[Header("General")]
 
 	public float range = 15f;
+	public bool firing;
 
 	[Header("Use Bullets (default)")]
 	public GameObject bulletPrefab;
@@ -24,6 +25,7 @@ public class Turret : MonoBehaviour {
 	public LineRenderer lineRenderer;
 	public ParticleSystem impactEffect;
 	public Light impactLight;
+	private Animator anim;
 
 	[Header("Unity Setup Fields")]
 
@@ -37,8 +39,13 @@ public class Turret : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		InvokeRepeating("UpdateTarget", 0f, 0.5f);
+		anim = GetComponent<Animator>();
+		
 	}
 	
+
+    
+    
 	void UpdateTarget ()
 	{
 		GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag);
@@ -93,6 +100,11 @@ public class Turret : MonoBehaviour {
 			{
 				Shoot();
 				fireCountdown = 1f / fireRate;
+			}else{
+				
+				if(anim!=null)
+				anim.SetBool("Firing", false);
+				
 			}
 
 			fireCountdown -= Time.deltaTime;
@@ -137,6 +149,15 @@ public class Turret : MonoBehaviour {
 
 		if (bullet != null)
 			bullet.Seek(target);
+
+		if(anim!=null)
+		anim.SetBool("Firing", true);
+
+		/* if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Fire"))
+        {
+			anim.Play("Fire", 0, 0f);
+        } */
+		
 	}
 
 	void OnDrawGizmosSelected ()

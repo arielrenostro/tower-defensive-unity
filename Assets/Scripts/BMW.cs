@@ -7,8 +7,8 @@ public class BMW : MonoBehaviour
     
     //public Transform endPoint;
     private Transform target;
-    private int wavepointIndex = Waypoints.points.Length - 2;
-    private int nextWavepointIndex = Waypoints.points.Length -3;
+    private int wavepointIndex = Waypoints.points == null ? 0 : Waypoints.points.Length - 2;
+    private int nextWavepointIndex = Waypoints.points == null ? 0 : Waypoints.points.Length - 3;
     public GameObject deathEffect;
 	private float speed;
 
@@ -23,7 +23,7 @@ public class BMW : MonoBehaviour
 	
 
 void Update(){
-	Debug.Log(1.0f / Time.deltaTime);
+	//Debug.Log(1.0f / Time.deltaTime);
 }
 	/* void Update ()
 	{
