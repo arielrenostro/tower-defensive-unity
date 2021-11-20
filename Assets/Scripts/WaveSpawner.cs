@@ -1,32 +1,36 @@
 using UnityEngine;
 using System.Collections;
+using System;
 using UnityEngine.UI;
 
 public class WaveSpawner : MonoBehaviour {
 
 	public static int EnemiesAlive = 0;
+	public static int EnemiesSpawnPending = 0;
 
-	public Wave[] waves;
+	public GameObject[] enemies;
 
 	public Transform spawnPoint;
 
+	public int maxWaves = 8;
+
 	public float timeBetweenWaves = 5f;
-	private float countdown = 2f;
 
 	public Text waveCountdownText;
 
 	public GameManager gameManager;
 
-	private int waveIndex = 0;
+	private float countdown = 2f;
+	private System.Random random = new System.Random();
 
 	void Update ()
 	{
-		if (EnemiesAlive > 0)
+		if (EnemiesAlive > 0 || EnemiesSpawnPending > 0)
 		{
 			return;
 		}
 
-		if (waveIndex == waves.Length)
+		if (PlayerStats.Rounds >= 8)
 		{
 			gameManager.WinLevel();
 			this.enabled = false;
@@ -50,22 +54,45 @@ public class WaveSpawner : MonoBehaviour {
 	{
 		PlayerStats.Rounds++;
 
-		Wave wave = waves[waveIndex];
+		int enemiesAmount = PlayerStats.Rounds * (4 ^ 2);
+		EnemiesSpawnPending = enemiesAmount;
 
-		EnemiesAlive = wave.count;
+		float rate = (-0.2857142857143f * (float) PlayerStats.Rounds) + 3.2857142857143f;
 
-		for (int i = 0; i < wave.count; i++)
+		for (int i = 0; i < enemiesAmount; i++)
 		{
-			SpawnEnemy(wave.enemy);
-			yield return new WaitForSeconds(1f / wave.rate);
+			GameObject enemy = this.determinateEnemy();
+			SpawnEnemy(enemy);
+			yield return new WaitForSecondsRealtime(rate);
 		}
-
-		waveIndex++;
 	}
 
 	void SpawnEnemy (GameObject enemy)
 	{
 		Instantiate(enemy, spawnPoint.position, spawnPoint.rotation);
+		EnemiesSpawnPending--;
 	}
 
+	int randomBetween(int min, int max)
+    {
+		double diff = (double) (1 + max - min);
+		return min + (int) (diff * this.random.NextDouble());
+    }
+
+	GameObject determinateEnemy()
+    {
+		int max;
+		if (PlayerStats.Rounds == 1)
+        {
+			max = 0;
+        } else if (PlayerStats.Rounds == 2)
+        {
+			max = 1;
+        } else
+        {
+			max = this.enemies.Length - 1;
+		}
+		int idx = this.randomBetween(0, max);
+		return this.enemies[idx];
+    }
 }

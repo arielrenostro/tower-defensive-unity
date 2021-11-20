@@ -7,19 +7,19 @@ public class BMWSpawner : MonoBehaviour {
 	public Transform spawnPoint;
     
     public GameObject bmw;
-    
-	
+
+	public int Cost = 750;
 
 
 	public void SpawnBmw ()
 	{
-		if (PlayerStats.Money < 350)
+		if (PlayerStats.Money < Cost)
 		{
 			Debug.Log("Not enough money to build that!");
 			return;
 		}
-		if(GameObject.FindGameObjectsWithTag("BMW").Length ==0 ){
-			PlayerStats.Money -= 350;
+		if(GameObject.FindGameObjectsWithTag("BMW").Length == 0){
+			PlayerStats.Money -= Cost;
 
         //Debug.Log("BMW");
 		
