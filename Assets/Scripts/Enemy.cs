@@ -3,6 +3,8 @@ using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour {
 
+	public string[] nomeSFX;
+	//public GameObject controladorSFX;
 	public float startSpeed = 10f;
 
 	[HideInInspector]
@@ -22,6 +24,16 @@ public class Enemy : MonoBehaviour {
 
 	void Start ()
 	{
+		
+		foreach (string a in nomeSFX)
+	{
+	    AudioSource efeito = GameObject.Find(a).GetComponent<AudioSource>();
+		if(!efeito.isPlaying){
+			efeito.Play();
+		}
+	}
+		
+
 		speed = startSpeed;
 		health = startHealth;
 	}

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BMW : MonoBehaviour
 {
-    
+    public string[] nomeSFX;
     //public Transform endPoint;
     private Transform target;
     private int wavepointIndex = Waypoints.points == null ? 0 : Waypoints.points.Length - 2;
@@ -14,6 +14,15 @@ public class BMW : MonoBehaviour
 
     void Start()
 	{
+
+		foreach (string a in nomeSFX)
+	{
+	    AudioSource efeito = GameObject.Find(a).GetComponent<AudioSource>();
+		if(!efeito.isPlaying){
+			efeito.Play();
+		}
+	}
+
         speed = Time.fixedDeltaTime * 5;
 		target = Waypoints.points[wavepointIndex];
 		Vector3 dir = target.position - transform.position;

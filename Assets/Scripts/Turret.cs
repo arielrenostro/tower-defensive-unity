@@ -5,6 +5,9 @@ public class Turret : MonoBehaviour {
 
 	private Transform target;
 	private Enemy targetEnemy;
+	
+	
+	public AudioSource tiro;
 
 	[Header("General")]
 
@@ -78,6 +81,8 @@ public class Turret : MonoBehaviour {
 		{
 			if (useLaser)
 			{
+				if(tiro.isPlaying)
+				tiro.Stop();
 				if (lineRenderer.enabled)
 				{
 					lineRenderer.enabled = false;
@@ -122,6 +127,9 @@ public class Turret : MonoBehaviour {
 
 	void Laser ()
 	{
+		if(!tiro.isPlaying)
+			tiro.Play();
+		
 		targetEnemy.TakeDamage(damageOverTime * Time.deltaTime);
 		targetEnemy.Slow(slowAmount);
 
@@ -146,6 +154,7 @@ public class Turret : MonoBehaviour {
 	{
 		GameObject bulletGO = (GameObject)Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
 		Bullet bullet = bulletGO.GetComponent<Bullet>();
+		tiro.Play();
 
 		if (bullet != null)
 			bullet.Seek(target);

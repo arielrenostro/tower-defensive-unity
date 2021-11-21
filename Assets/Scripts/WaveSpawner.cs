@@ -84,7 +84,7 @@ public class WaveSpawner : MonoBehaviour {
 		int max;
 		if (PlayerStats.Rounds == 1)
         {
-			max = 0;
+			max = this.enemies.Length - 1;
         } else if (PlayerStats.Rounds == 2)
         {
 			max = 1;
