@@ -20,7 +20,8 @@ public class WaveSpawner : MonoBehaviour {
 
 	public GameManager gameManager;
 
-	private float countdown = 2f;
+	private IEnumerator coroutine;
+	private float countdown = 5f;
 	private System.Random random = new System.Random();
 
 	void Update ()
@@ -38,7 +39,8 @@ public class WaveSpawner : MonoBehaviour {
 
 		if (countdown <= 0f)
 		{
-			StartCoroutine(SpawnWave());
+			this.coroutine = SpawnWave();
+			StartCoroutine(this.coroutine);
 			countdown = timeBetweenWaves;
 			return;
 		}
@@ -48,6 +50,15 @@ public class WaveSpawner : MonoBehaviour {
 		countdown = Mathf.Clamp(countdown, 0f, Mathf.Infinity);
 
 		waveCountdownText.text = string.Format("{0:00.00}", countdown);
+	}
+
+	void OnDestroy()
+	{
+		StopCoroutine(this.coroutine);
+		PlayerStats.Rounds = 0;
+		WaveSpawner.EnemiesAlive = 0;
+		WaveSpawner.EnemiesSpawnPending = 0;
+		this.countdown = 5f;
 	}
 
 	IEnumerator SpawnWave ()
@@ -84,7 +95,7 @@ public class WaveSpawner : MonoBehaviour {
 		int max;
 		if (PlayerStats.Rounds == 1)
         {
-			max = this.enemies.Length - 1;
+			max = 0;
         } else if (PlayerStats.Rounds == 2)
         {
 			max = 1;

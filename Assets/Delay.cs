@@ -16,6 +16,6 @@ public class Delay : MonoBehaviour
     {
         
         yield return new WaitForSeconds(37.50f);
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene("Level01");
     }
 }
