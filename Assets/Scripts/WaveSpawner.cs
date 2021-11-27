@@ -21,7 +21,7 @@ public class WaveSpawner : MonoBehaviour {
 	public GameManager gameManager;
 
 	private IEnumerator coroutine;
-	private float countdown = 5f;
+	private float countdown = 10f;
 	private System.Random random = new System.Random();
 
 	void Update ()
@@ -31,7 +31,7 @@ public class WaveSpawner : MonoBehaviour {
 			return;
 		}
 
-		if (PlayerStats.Rounds >= 8)
+		if (PlayerStats.Rounds >= 5)
 		{
 			gameManager.WinLevel();
 			this.enabled = false;
@@ -68,7 +68,7 @@ public class WaveSpawner : MonoBehaviour {
 		int enemiesAmount = PlayerStats.Rounds * (4 ^ 2);
 		EnemiesSpawnPending = enemiesAmount;
 
-		float rate = (-0.2857142857143f * (float) PlayerStats.Rounds) + 3.2857142857143f;
+		float rate = (-0.7057142857143f * (float) PlayerStats.Rounds) + 3.2857142857143f;
 
 		for (int i = 0; i < enemiesAmount; i++)
 		{
